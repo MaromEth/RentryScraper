@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Extract Rentry.co Link</title>
+</head>
+<body>
+    <input type="text" id="websiteInput">
+    <button onclick="extractLink()">Go</button>
+    <p id="linkOutput"></p>
+
+    <script>
+        function extractLink() {
+            const websiteUrl = document.getElementById("websiteInput").value;
+            fetch(websiteUrl)
+                .then(response => response.text())
+                .then(html => {
+                    const startIndex = html.indexOf("rentry.co");
+                    const endIndex = html.indexOf("rentry.co") + 15;
+                    const rentryLink = html.slice(startIndex, endIndex);
+                    document.getElementById("linkOutput").textContent = rentryLink;
+                    let aTag = document.createElement('a');
+                    console.log(rentryLink);
+                    aTag.innerHTML="I am a link";
+                    aTag.href=rentryLink;
+                    document.body.appendChild(aTag);
+                })
+                .catch(error => {
+                    console.error("Error fetching website:", error);
+                });
+        }
+    </script>
+</body>
+</html>
