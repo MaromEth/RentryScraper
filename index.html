@@ -22,7 +22,8 @@
                     let aTag = document.createElement('a');
                     console.log(rentryLink);
                     aTag.innerHTML="I am a link";
-                    aTag.href=rentryLink;
+                    const realLink = "https://" + rentryLink;
+                    aTag.href=realLink;
                     document.body.appendChild(aTag);
                 })
                 .catch(error => {
