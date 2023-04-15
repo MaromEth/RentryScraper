@@ -12,7 +12,8 @@
     <script>
         function extractLink() {
             const websiteUrl = document.getElementById("websiteInput").value;
-            fetch(websiteUrl)
+            const realUrl = "https://" + websiteUrl;
+            fetch(realUrl)
                 .then(response => response.text())
                 .then(html => {
                     const startIndex = html.indexOf("rentry.co");
