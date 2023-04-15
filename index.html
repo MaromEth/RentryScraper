@@ -17,7 +17,7 @@
                 .then(response => response.text())
                 .then(html => {
                     const startIndex = html.indexOf("rentry.co");
-                    const endIndex = html.indexOf("rentry.co") + 15;
+                    const endIndex = html.indexOf("rentry.co") + 16;
                     const rentryLink = html.slice(startIndex, endIndex);
                     document.getElementById("linkOutput").textContent = rentryLink;
                     let aTag = document.createElement('a');
