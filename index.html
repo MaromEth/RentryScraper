@@ -1,31 +1,51 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Extract Rentry.co Link</title>
+    <title>Extract Rentry Link</title>
 </head>
 <body>
     <input type="text" id="websiteInput">
     <button onclick="extractLink()">Go</button>
     <p id="linkOutput"></p>
+    <div id="linkContainer"></div>
 
     <script>
+        let linkContainer = document.getElementById("linkContainer");
+
         function extractLink() {
             const websiteUrl = document.getElementById("websiteInput").value;
             const realUrl = "https://" + websiteUrl;
             fetch(realUrl)
                 .then(response => response.text())
                 .then(html => {
-                    const startIndex = html.indexOf("rentry.co");
-                    const endIndex = html.indexOf("rentry.co") + 16;
-                    const rentryLink = html.slice(startIndex, endIndex);
+                    let startIndex, endIndex;
+                    if (html.includes("rentry.co")) {
+                        startIndex = html.indexOf("rentry.co");
+                        endIndex = startIndex + 17;
+                    } else if (html.includes("rentry.org")) {
+                        startIndex = html.indexOf("rentry.org");
+                        endIndex = startIndex + 18;
+                    } else {
+                        throw new Error("Rentry link not found");
+                    }
+
+                    let rentryLink = html.slice(startIndex, endIndex);
+                    rentryLink = rentryLink.replace("'", "");
+                    rentryLink = rentryLink.replace(",", "");
                     document.getElementById("linkOutput").textContent = rentryLink;
+
                     let aTag = document.createElement('a');
-                    console.log(rentryLink);
-                    aTag.innerHTML="I am a link";
+                    aTag.innerHTML = "I am a link";
                     const realLink = "https://" + rentryLink;
-                    aTag.href=realLink;
-                    document.body.appendChild(aTag);
+                    aTag.href = realLink;
+
+                    // Clear existing links
+                    linkContainer.innerHTML = "";
+
+                    // Append the new link
+                    linkContainer.appendChild(aTag);
                 })
                 .catch(error => {
                     console.error("Error fetching website:", error);
